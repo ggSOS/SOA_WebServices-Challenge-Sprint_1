@@ -1,32 +1,48 @@
 package br.com.fiap.chatbotdatabase1.controller;
 
+import br.com.fiap.chatbotdatabase1.dto.AtualizarMensagemDTO;
+import br.com.fiap.chatbotdatabase1.dto.ListagemMensagemDTO;
 import br.com.fiap.chatbotdatabase1.dto.MensagemDTO;
 import br.com.fiap.chatbotdatabase1.model.Mensagem;
 import br.com.fiap.chatbotdatabase1.repository.MensagemRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import java.net.URI;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/mensagens")
+@Tag(name = "Mensagem", description = "Endpoint para Gerenciamento de Mensagens de Usuários")
 public class MensagemController {
 
-    private final MensagemRepository mensagemRepository;
+    @Autowired
+    private MensagemRepository mensagemRepository;
 
-    public MensagemController(MensagemRepository mensagemRepository) {
-        this.mensagemRepository = mensagemRepository;
+    @PostMapping
+    @Transactional
+    public ResponseEntity<Mensagem> criarMensagem(@RequestBody @Valid MensagemDTO dados, UriComponentsBuilder uriBuilder) {
+        Mensagem mensagem = new Mensagem(dados);
+        mensagemRepository.save(mensagem);
+
+        URI uri = uriBuilder.path("/mensagens/{id}").buildAndExpand(mensagem.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(mensagem);
     }
 
     @GetMapping
-    public ResponseEntity<List<Mensagem>> listarMensagens() {
-        return ResponseEntity.ok(mensagemRepository.findAll());
-    }
-
-    @PostMapping
-    public ResponseEntity<Mensagem> criarMensagem(@RequestBody MensagemDTO dto) {
-        Mensagem mensagem = new Mensagem(dto.getTexto(), dto.getUsuario());
-        return ResponseEntity.ok(mensagemRepository.save(mensagem));
+    public ResponseEntity<Page<ListagemMensagemDTO>> listarMensagens(
+            @PageableDefault(size = 10, sort = {"id"}) Pageable paginacao
+    ) {
+        Page<ListagemMensagemDTO> page = mensagemRepository.findAllByAtivoTrue(paginacao).map(ListagemMensagemDTO::new);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")
@@ -36,25 +52,24 @@ public class MensagemController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Mensagem> atualizarMensagem(
-            @PathVariable Long id,
-            @RequestBody MensagemDTO dto) {
-
-        return mensagemRepository.findById(id).map(m -> {
-            m.setTexto(dto.getTexto());
-            m.setUsuario(dto.getUsuario());
-            return ResponseEntity.ok(mensagemRepository.save(m));
-        }).orElse(ResponseEntity.notFound().build());
+    @PutMapping
+    @Transactional
+    public ResponseEntity<Mensagem> atualizarMensagem(@RequestBody @Valid AtualizarMensagemDTO dados) {
+        return mensagemRepository.findById(dados.id())
+                .map(mensagem -> {
+                    mensagem.atualizarMensagem(dados);
+                    // O save não é necessário aqui devido ao @Transactional
+                    return ResponseEntity.ok(mensagem);
+                }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
+    @Transactional
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        if (!mensagemRepository.existsById(id)) {
-            return ResponseEntity.notFound().build();
-        }
-
-        mensagemRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        return mensagemRepository.findById(id)
+                .map(mensagem -> {
+                    mensagem.excluir();
+                    return ResponseEntity.noContent().<Void>build();
+                }).orElse(ResponseEntity.notFound().build());
     }
 }

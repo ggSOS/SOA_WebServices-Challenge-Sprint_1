@@ -37,6 +37,8 @@ public class Resposta {
 
     private Boolean satisfatorio;
 
+    private Boolean ativo;
+
     @OneToOne
     @JoinColumn(name = "ID_MENSAGEM")
     private Mensagem mensagem;
@@ -46,6 +48,7 @@ public class Resposta {
         this.temaPrincipal = dados.temaPrincipal();
         this.satisfatorio = dados.satisfatorio();
         this.mensagem = dados.mensagem();
+        this.ativo = true;
     }
 
     public void atualizarSatisfacao(@Valid AtualizarRespostaDTO dados) {
@@ -55,5 +58,9 @@ public class Resposta {
         if (dados.mensagem() != null) {
             this.mensagem = dados.mensagem();
         }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }

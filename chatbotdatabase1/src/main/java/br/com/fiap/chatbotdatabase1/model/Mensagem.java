@@ -32,14 +32,21 @@ public class Mensagem {
     @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
     private Resposta resposta;
 
+    private Boolean ativo;
+
     public Mensagem(MensagemDTO dados) {
         this.conteudo = SanitizerUtil.sanitize(dados.conteudo());
         this.resposta = dados.resposta();
+        this.ativo = true;
     }
 
     public void atualizarMensagem(@Valid AtualizarMensagemDTO dados){
         if(dados.resposta() != null){
             this.resposta = dados.resposta();
         }
+    }
+
+    public void excluir() {
+        this.ativo = false;
     }
 }

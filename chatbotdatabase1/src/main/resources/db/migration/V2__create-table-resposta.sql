@@ -4,6 +4,7 @@ Create Table RESPOSTA
     ID_RESPOSTA     BigInt          Not Null    Auto_increment,
     CONTEUDO        VarChar(500)    Not Null,
     TEMA_PRINCIPAL  VarChar(50)     Not Null,
+    ATIVO           tinyint         Not Null,
     SATISFATORIO    TinyInt,
     ID_MENSAGEM     BigInt			Not Null,
     Constraint	RESPOSTA_PK				Primary Key(ID_RESPOSTA),

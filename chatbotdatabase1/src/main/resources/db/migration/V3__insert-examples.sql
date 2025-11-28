@@ -1,60 +1,64 @@
 Insert Into MENSAGEM
-(CONTEUDO)
+(CONTEUDO, ATIVO)
 Values
-("Tem algum hospital aqui perto que aceite o plano de vocês?")
+("Tem algum hospital aqui perto que aceite o plano de vocês?", 1)
 ;
 Insert Into RESPOSTA
-(CONTEUDO, TEMA_PRINCIPAL, ID_MENSAGEM)
+(CONTEUDO, TEMA_PRINCIPAL, ID_MENSAGEM, ATIVO)
 Values
 ("Aqui estão os resultados de Hospitais na sua região que aceitam nosso plano.",
-"CHECAR_HOSPITAIS_PROXIMOS",
+"Checar Hospitais próximos",
+1,
 1
 )
 ;
 
 
 Insert Into MENSAGEM
-(CONTEUDO)
+(CONTEUDO, ATIVO)
 Values
-("Tive um imprevisto e preciso remarcar minha consulta, teria como?")
+("Tive um imprevisto e preciso remarcar minha consulta, teria como?", 1)
 ;
 Insert Into RESPOSTA
-(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM)
+(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Claro! Aqui está estão as datas disponíveis para sua consulta.",
-"REMARCAR_OU_CANCELAR_AGENDAMENTO",
+"Remarcar ou cancelar agendamento",
 1,
-2
+2,
+1
 )
 ;
 
 Insert Into MENSAGEM
-(CONTEUDO)
+(CONTEUDO, ATIVO)
 Values
-("Teria algum Dermatologista em algum hospital que aceite seu convênio?")
+("Teria algum Dermatologista em algum hospital que aceite seu convênio?", 1)
 ;
 Insert Into RESPOSTA
-(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM)
+(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Temos Dermatologistas sim! Aqui está uma lista de especialidades disponíveis.",
-"CONSULTAR_ESPECIALIDADES_MEDICAS_DISPONIVEIS",
+"Consultar especialidades médicas disponíveis",
 1,
-3
+3,
+1
 )
 ;
 
 
 Insert Into MENSAGEM
-(CONTEUDO)
+(CONTEUDO, ATIVO)
 Values
-("Posso marcar um Otorrino em algum hospital aqui perto?")
+("Posso marcar um Otorrino em algum hospital aqui perto?", 1)
 ;
 Insert Into RESPOSTA
-(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM)
+(CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Aqui estão os resultados de Hospitais na sua região que aceitam nosso plano.",
-"CHECAR_HOSPITAIS_PROXIMOS",
+"Checar Hospitais próximos",
 0,
-4
+4,
+1
 )
 ;
