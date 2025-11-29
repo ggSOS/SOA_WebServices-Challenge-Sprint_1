@@ -1,9 +1,12 @@
 package br.com.fiap.chatbotdatabase1.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import br.com.fiap.chatbotdatabase1.dto.AtualizarMensagemDTO;
 import br.com.fiap.chatbotdatabase1.dto.MensagemDTO;
 import br.com.fiap.chatbotdatabase1.util.SanitizerUtil;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,28 +18,33 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Table(name = "MENSAGEM")
 @Entity(name = "Mensagem")
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Mensagem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "ID_MENSAGEM")
+    private Long id;
 
+    @Column(name = "CONTEUDO", length = 500, nullable = false)
     private String conteudo;
 
-    @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
-    private Resposta resposta;
-
+    @Column(name = "ATIVO", nullable = false)
     private Boolean ativo;
+
+    @OneToOne(mappedBy = "mensagem", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Resposta resposta;
 
     public Mensagem(MensagemDTO dados) {
         this.conteudo = SanitizerUtil.sanitize(dados.conteudo());
-        this.resposta = dados.resposta();
         this.ativo = true;
     }
 

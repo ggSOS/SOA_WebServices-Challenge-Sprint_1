@@ -7,7 +7,7 @@ Insert Into RESPOSTA
 (CONTEUDO, TEMA_PRINCIPAL, ID_MENSAGEM, ATIVO)
 Values
 ("Aqui estão os resultados de Hospitais na sua região que aceitam nosso plano.",
-"Checar Hospitais próximos",
+"CHECAR_HOSPITAIS_PROXIMOS",
 1,
 1
 )
@@ -23,7 +23,7 @@ Insert Into RESPOSTA
 (CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Claro! Aqui está estão as datas disponíveis para sua consulta.",
-"Remarcar ou cancelar agendamento",
+"REMARCAR_OU_CANCELAR_AGENDAMENTO",
 1,
 2,
 1
@@ -39,7 +39,7 @@ Insert Into RESPOSTA
 (CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Temos Dermatologistas sim! Aqui está uma lista de especialidades disponíveis.",
-"Consultar especialidades médicas disponíveis",
+"CONSULTAR_ESPECIALIDADES_MEDICAS_DISPONIVEIS",
 1,
 3,
 1
@@ -56,7 +56,7 @@ Insert Into RESPOSTA
 (CONTEUDO, TEMA_PRINCIPAL, SATISFATORIO, ID_MENSAGEM, ATIVO)
 Values
 ("Aqui estão os resultados de Hospitais na sua região que aceitam nosso plano.",
-"Checar Hospitais próximos",
+"CHECAR_HOSPITAIS_PROXIMOS",
 0,
 4,
 1
